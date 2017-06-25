@@ -9,6 +9,8 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -19,6 +21,7 @@ import com.google.gson.JsonParser;
  * @author Insxnity
  * @copyright Copyright (c) 2016, Insxnity Development
  */
+@Component
 public class HS100 {
  
     public static final String COMMAND_SWITCH_ON = "{\"system\":{\"set_relay_state\":{\"state\":1}}}}";
@@ -44,6 +47,8 @@ public class HS100 {
      * Port
      */
     private int port = 9999;
+    
+    public HS100() {}
  
     /**
      * @param ip IP Address

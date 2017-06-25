@@ -5,62 +5,60 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.mtlevine0.hs100.ws.model.HS100Device;
 import com.mtlevine0.hs100.ws.repository.DeviceDao;
 
 import net.insxnity.hs100.HS100;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class StateServiceImplTest {
-
-	@TestConfiguration
-	static class StateServiceImplTestContextConfiguration {
-		
-		@Bean
-		public StateService stateService() {
-			return new StateServiceImpl();
-		}
-	}
 	
-	@Autowired
-	private StateService stateService;
+	@InjectMocks
+	private StateServiceImpl stateServiceImpl;
 	
-	@MockBean
+	@Mock
 	private DeviceDao deviceDao;
 	
-//	@MockBean
-//	private List<HS100> hs100List;
+	@Mock
+	private HS100 hs100;
 	
 	@Before
-	public void setup() throws IOException {
-		HS100Device device = new HS100Device("Test Device", "192.168.1.103", HS100Device.State.UNKNOWN);
+	public void setup() throws IOException {		
+		// given
+		HS100Device officeLightDevice = new HS100Device("Office Light", "192.168.1.103", HS100Device.State.UNKNOWN);
+		HS100Device boxFanDevice = new HS100Device("Box Fan", "192.168.1.124", HS100Device.State.UNKNOWN);
 		
-		System.out.println("DEVICE ID: " + device.getId());
+		officeLightDevice.setId(0l);
+		boxFanDevice.setId(1l);
 		
-		Mockito.when(deviceDao.findOne(device.getId())).thenReturn(device);
-		
-//		Mockito.when(hs100.isOn()).thenReturn(true);
+		List<HS100Device> deviceList = new ArrayList<HS100Device>();
+		deviceList.add(officeLightDevice);
+		deviceList.add(boxFanDevice);
+				
+		Mockito.when(deviceDao.findAll()).thenReturn(deviceList);
+		Mockito.doReturn(true).when(hs100).isOn();
 
 	}
 	
 	@Test
-	public void whenValidId_thenDevicesShouldBeFound() {
-		long id = 0;
-		
-		HS100Device found = deviceDao.findOne(id);
-		
-		assertThat(found.getId(), is(equalTo(id)));
+	public void whenDevicesInRepository_thenDevicesReturnIsOn() throws IOException {
+		// when
+		List<HS100Device> deviceList = stateServiceImpl.getAllState();
+
+		// then
+		assertThat(deviceList.get(0).getState(), is(equalTo(HS100Device.State.ON)));
+		assertThat(deviceList.get(1).getState(), is(equalTo(HS100Device.State.ON)));
 
 	}
 }

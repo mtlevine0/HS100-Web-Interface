@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.mtlevine0.hs100.ws.model.HS100Device;
 
-public interface StateService {
+import net.insxnity.hs100.HS100;
 
+public interface StateService {
+	
 	public List<HS100Device> getAllState() throws IOException;
 	
 	public List<HS100Device> setState(List<HS100Device> deviceList) throws IOException;
