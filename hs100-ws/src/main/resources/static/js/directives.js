@@ -1,0 +1,1 @@
+var weatherm8Directives = angular.module('weatherm8Directives',[]);
