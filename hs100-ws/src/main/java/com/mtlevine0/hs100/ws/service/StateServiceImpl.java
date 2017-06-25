@@ -28,7 +28,7 @@ public class StateServiceImpl implements StateService {
 
 	public List<HS100Device> setState(List<HS100Device> deviceList) throws IOException {
 		for(HS100Device device : deviceList) {
-			HS100 plug = new HS100(device.getIp());	
+			HS100 plug = new HS100(device.getIp());
 			if(device.getState() == HS100Device.State.ON) {
 				plug.switchOn();
 			} else {

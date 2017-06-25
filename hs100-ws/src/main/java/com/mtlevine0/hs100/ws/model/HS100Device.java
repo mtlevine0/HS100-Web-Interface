@@ -27,7 +27,7 @@ public class HS100Device {
 	
 	public HS100Device() { }
 
-	public HS100Device(long id, String name, String ip, State state) {
+	public HS100Device(String name, String ip, State state) {
 		super();
 		this.id = id;
 		this.name = name;
