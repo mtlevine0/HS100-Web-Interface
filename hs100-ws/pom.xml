@@ -11,9 +11,10 @@
 	<name>hs100-ws</name>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<groupId>com.mtlevine0.hs100</groupId>
+		<artifactId>hs100-build</artifactId>
+		<version>1.0</version>
+		<relativePath>../hs100-build</relativePath>
 	</parent>
 
 	<properties>

@@ -20,5 +20,4 @@ public class HS100WebServiceApp extends SpringBootServletInitializer {
 		return application.sources(HS100WebServiceApp.class);
 	}
 
-
 }
